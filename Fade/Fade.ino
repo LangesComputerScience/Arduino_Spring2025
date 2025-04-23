@@ -13,31 +13,44 @@
   https://docs.arduino.cc/built-in-examples/basics/Fade/
 */
 
-int blueLed = 9;         // the PWM pin the LED is attached to
-int redLed = 10;         // the PWM pin the LED is attached to
-int brightness = 0;  // how bright the LED is
-int fadeAmount = 5;  // how many points to fade the LED by
+// Define the LED pins
+const int led1 = 9;  // PWM pin
+const int led2 = 10; // PWM pin
 
-// the setup routine runs once when you press reset:
+// Fading delay time (smaller = faster)
+int fadeDelay = 10;
+
 void setup() {
-  // declare pin 9 to be an output:
-  pinMode(blueLed, OUTPUT);
-  pinMode(redLed, OUTPUT);
+  pinMode(led1, OUTPUT);
+  pinMode(led2, OUTPUT);
 }
 
-// the loop routine runs over and over again forever:
 void loop() {
-  // set the brightness of pin 9:
-  analogWrite(blueLed, brightness);
-  analogWrite(redLed, brightness);
-
-  // change the brightness for next time through the loop:
-  brightness = brightness + fadeAmount;
-
-  // reverse the direction of the fading at the ends of the fade:
-  if (brightness <= 0 || brightness >= 255) {
-    fadeAmount = -fadeAmount;
+  // Fade in LED 1
+  for (int brightness = 0; brightness <= 255; brightness++) {
+    analogWrite(led1, brightness);
+    delay(fadeDelay);
   }
-  // wait for 30 milliseconds to see the dimming effect
-  delay(30);
+
+  // Fade out LED 1
+  for (int brightness = 255; brightness >= 0; brightness--) {
+    analogWrite(led1, brightness);
+    delay(fadeDelay);
+  }
+
+  delay(500); // Small pause before starting LED 2
+
+  // Fade in LED 2
+  for (int brightness = 0; brightness <= 255; brightness++) {
+    analogWrite(led2, brightness);
+    delay(fadeDelay);
+  }
+
+  // Fade out LED 2
+  for (int brightness = 255; brightness >= 0; brightness--) {
+    analogWrite(led2, brightness);
+    delay(fadeDelay);
+  }
+
+  delay(500); // Pause before repeating
 }
